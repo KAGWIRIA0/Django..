@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&display=swap');
+
+body{
+    font-family: "Playwrite GB S", serif;
+    font-optical-sizing: auto;
+    font-weight:normal;
+    font-style: normal;
+}
+
+footer{
+    border-top: 1px solid #873131;
+}
+footer.container{
+    height:100px;
+    background: #781f1f;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+.container a{
+    margin:0 18px
+}
+
+
+footer.copyright{
+    padding:16px 0;
+    text-align: center;
+}
