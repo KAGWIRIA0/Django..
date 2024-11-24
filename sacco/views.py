@@ -1,8 +1,6 @@
-from itertools import count
-
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
 from sacco.models import Customer, Deposit
 
 
@@ -26,3 +24,36 @@ def test(request):
 
 
     return HttpResponse(f"Ok,done,We have {customer_count} customers and {deposit_count}deposits.")
+
+
+def customers(request):
+    data = Customer.objects.all().order_by('id').values() # ORM SELECT * FROM customers
+    paginator = Paginator(data,15)
+    page_number = request.GET.get('page',1)
+    try:
+        paginated_data= paginator.page(page_number)
+    except EmptyPage:
+        paginated_data= paginator.page(1)
+    return render(request, "customers.html",{"data":paginated_data})
+
+
+def delete_customer(request, customer_id):
+    customer=Customer.objects.get(id=customer_id)#select *from customers where id =7
+    customer.delete() #delete from customers where id=7
+    return redirect("customers")
+
+
+def customers_details(request, customer_id):
+    customer = Customer.objects.get(id=customer_id)
+    deposits= customer.deposits.all()
+    return render(request, "details.html", {"customer": customer,"deposits": deposits})
+
+
+def delete_customer(request, customer_id):
+    customer=Customer.objects.get(id=customer_id)#select *from customers where id =7
+    customer.delete() #delete from customers where id=7
+    return redirect("customers")
+
+
+def delete_customers(request):
+    return None

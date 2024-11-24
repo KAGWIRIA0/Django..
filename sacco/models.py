@@ -8,7 +8,6 @@ class Customer(models.Model):
     dob = models.DateField()
     gender = models.CharField(max_length=20)
     weight = models.IntegerField(default=0)
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -22,8 +21,7 @@ class Customer(models.Model):
 class Deposit(models.Model):
     amount = models.IntegerField()
     status = models.BooleanField(default=False)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='deposits')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -38,3 +36,5 @@ class Deposit(models.Model):
 # run migrations
 # python manage.py makemigrations
 # python manage.py migrate
+
+#python manage.py populate

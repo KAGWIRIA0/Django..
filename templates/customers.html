@@ -1,0 +1,94 @@
+{% extends 'master.html' %}
+
+{% block title %}
+	<title>Sacco customers</title>
+{% endblock %}
+
+{% block Content %}
+    <div class="container">
+    <h4>Sacco Customers</h4>
+    <table class="table table-striped">
+        <tr>
+            <th>ID</th>
+            <th>First Name </th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Joining Date</th>
+            <th>Delete</th>
+            <th>Details</th>
+            <th>Deposit</th>
+            <th>Update</th>
+        </tr>
+        {% for customer in data.object_list %}
+            <tr>
+                <td>{{customer.id  }}</td>
+                <td>{{ customer.first_name }}</td>
+                <td>{{ customer.last_name }}</td>
+                <td>{{ customer.email }}</td>
+                <td>{{customer.created_at |date:"d-m-Y"}}</td>
+                
+                {% if perms.sacco.delete_customer %}
+                <td>
+                    <a class="btn btn-danger btn-sm" href="{% url "delete_customer" customer_id %}">Remove</a>
+                </td>
+                {% else %}
+                <td>
+                    <button class="btn btn-sm disabled" >Action</button>
+                </td>
+                {% endif %}
+            
+             {% if perms.sacco.view_customer %}
+                <td>
+                    <a class="btn btn-info btn-sm" href="{% url "customers_details" customer_id %}">Details</a>
+                </td>
+                {% else %}
+                <td>
+                    <button class="btn btn-sm disabled" >Action</button>
+                </td>
+                {% endif %}
+            
+             {% if perms.sacco.add_deposit %}
+                <td>
+                    <a class="btn btn-primary btn-sm" href="{% url "deposit" customer_id %}">Deposit</a>
+                </td>
+                {% else %}
+                <td>
+                    <button class="btn btn-sm disabled" >Action</button>
+                </td>
+                {% endif %}
+            
+             {% if perms.sacco.change_customer %}
+                <td>
+                    <a class="btn btn-danger btn-sm" href="{% url "update_customer" customer_id %}">Update</a>
+                </td>
+                {% else %}
+                <td>
+                    <button class="btn btn-sm disabled" >Action</button>
+                </td>
+                {% endif %}
+                 
+            
+            </tr>
+        	
+        {% empty %}
+            <p>No customers in the Sacco</p>
+        	
+        {% endfor %}
+        
+    </table>
+    <div class="row justify-content-center">
+        <div class="col-sm-2">
+            {% if  data.has_previous %}
+                <a class="btn btn-outline-primary btn=sm" href="?page={{ data.previous_page_number }}"> << </a>
+            {% endif %} 
+        <span>{{ data.number }}</span>
+            {% if  data.has.next %}
+                <a class="btn-outline-primary btn-sm" href="?page={{ data.next_page_number }}"> >> </a>
+            {% endif %}
+        </div>
+    </div>
+    
+    
+    </div>
+	
+{% endblock %}
